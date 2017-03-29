@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        '-//Hibernate/Hibernate Mapping DTD 3.0//EN'
+        'http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd'>
+<hibernate-mapping>
+    <class name="com.bxp.erp.invoice.goodstype.vo.GoodsTypeModel" table="tbl_goodsType">
+        <id name="uuid">
+            <generator class="native" />
+        </id>
+        <property name="name"/>
+        
+        
+        <!-- //配置商品类别到供应商的多对一关系 -->
+        <many-to-one name="supplier"
+        column="supplierUuid"
+        class="com.bxp.erp.invoice.supplier.vo.SupplierModel"
+        ></many-to-one>
+        
+    </class>
+</hibernate-mapping>

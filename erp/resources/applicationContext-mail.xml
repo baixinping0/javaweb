@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		">
+	<!-- Action -->
+	<!-- 别忘了action对应的类应该配置scope   非单例 -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<!-- 配置邮件服务器供应商 -->
+		<property name="host" value="smtp.126.com"></property>
+		
+		<property name="username" value="itcast0228"></property>
+		
+		<property name="password" value="0228itcast"></property>
+		
+		
+		<property name="javaMailProperties">
+			<props>
+				<!-- 开启校验 -->
+				<prop key="mail.smtp.auth"></prop>
+				<!-- 设置邮件服务器是否开启 -->
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<!-- 设置超时 -->
+				<prop key="mail.smtp.timeout">10000</prop>
+			</props>
+		</property>
+			
+	</bean>
+</beans>	
+	

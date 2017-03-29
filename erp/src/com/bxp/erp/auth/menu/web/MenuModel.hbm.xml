@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        '-//Hibernate/Hibernate Mapping DTD 3.0//EN'
+        'http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd'>
+<hibernate-mapping>
+	<class name="com.bxp.erp.auth.menu.vo.MenuModel" table="tbl_menu">
+		<id name="uuid">
+			<generator class="native" />
+		</id>
+		<property name="name" />
+		<property name="url" />
+		<property name="puuid" />
+		
+		<many-to-one name="parent"
+		column="puuid"
+		class="com.bxp.erp.auth.menu.vo.MenuModel"
+		></many-to-one>
+		
+		<!-- 员工到角色的多对多 -->
+		<set name="roles" table="tbl_emp_role">
+			<key column="empUuid" />
+			<many-to-many column="roleUuid"
+			class="com.bxp.erp.auth.role.vo.RoleModel"
+			/>
+
+		</set>
+	</class>
+</hibernate-mapping>

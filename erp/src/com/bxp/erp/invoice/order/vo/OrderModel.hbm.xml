@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        '-//Hibernate/Hibernate Mapping DTD 3.0//EN'
+        'http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd'>
+<hibernate-mapping>
+	<class name="com.bxp.erp.invoice.order.vo.OrderModel" table="tbl_order">
+		<id name="uuid">
+			<generator class="native" />
+		</id>
+		<property name="orderNum" />
+		<property name="totalNum" />
+		<property name="createTime" />
+		<property name="checkTime" />
+		<property name="endTime" />
+		<property name="orderType" />
+		<property name="type" />
+		<property name="totalPrice" />
+
+		<many-to-one name="creater" class="com.bxp.erp.auth.emp.vo.EmpModel"
+			column="creater" />
+		<many-to-one name="checker" class="com.bxp.erp.auth.emp.vo.EmpModel"
+			column="checker" />
+		<many-to-one name="completer" class="com.bxp.erp.auth.emp.vo.EmpModel"
+			column="completer" />
+		<many-to-one name="supplier"
+			class="com.bxp.erp.invoice.supplier.vo.SupplierModel" column="supplierUuid" />
+
+		<!-- //读订单明细一对多 -->
+		<set name="orderDetails" cascade="save-update" >
+			<key column="orderUuid"/>
+			<one-to-many 
+			class="com.bxp.erp.invoice.orderdetail.vo.OrderDetailModel"/>
+		</set>
+
+	</class>
+</hibernate-mapping>

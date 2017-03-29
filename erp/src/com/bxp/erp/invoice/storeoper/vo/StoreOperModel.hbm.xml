@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        '-//Hibernate/Hibernate Mapping DTD 3.0//EN'
+        'http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd'>
+<hibernate-mapping>
+	<class name="com.bxp.erp.invoice.storeoper.vo.StoreOperModel" table="tbl_storeOper">
+		<id name="uuid">
+			<generator class="native" />
+		</id>
+		<property name="num"/>
+		<property name="operTime"/>
+		<property name="type"/>
+	
+		<many-to-one name="emp"
+			class="com.bxp.erp.auth.emp.vo.EmpModel"
+			column="empUuid" />		
+			
+		<many-to-one name="goods"
+		class="com.bxp.erp.invoice.goods.vo.GoodsModel"
+		column="goodsUuid" />		
+			
+		<many-to-one name="store"
+		class="com.bxp.erp.invoice.store.vo.StoreModel"
+		column="storeUuid" />		
+	</class>
+</hibernate-mapping>

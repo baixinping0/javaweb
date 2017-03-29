@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.ui.theme" value="simple" />
+	<!-- 此处如果是resource则value只能写一个文件名 value="mes" 此处如果是resources则value可以写多个文件名 
+		value="mes,mes2" -->
+	<constant name="struts.custom.i18n.resources" value="mes"></constant>
+	<package name="default" namespace="/" extends="json-default">
+
+		<!-- 自定义拦截器 -->
+		<interceptors>
+			<interceptor name="loginInterceptor"
+				class="com.bxp.erp.util.interceptor.LoginInterceptor" />
+			<interceptor name="exceptionInterceptor"
+				class="com.bxp.erp.util.interceptor.ExceptionInterceptor" />
+			<interceptor name="authInterceptor"
+				class="com.bxp.erp.util.interceptor.AuthInterceptor"></interceptor>
+			<interceptor-stack name="systemStack">
+				<!-- 调用自定义的拦截器 -->
+				<interceptor-ref name="exceptionInterceptor"></interceptor-ref>
+				<interceptor-ref name="loginInterceptor" />
+				<interceptor-ref name="authInterceptor"></interceptor-ref>
+				<!-- 调用系统的拦截器 -->
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+		<!-- 配置拦截器栈 -->
+		<default-interceptor-ref name="systemStack" />
+
+
+
+		<!-- 对于struts中出现的结果集要与全局result进行匹配 -->
+		<global-results>
+			<!-- 必须跳转到一个全屏显示功能对应的页面 -->
+			<result name="noLogin">/index.jsp</result>
+			<result name="error">/WEB-INF/jsps/error.jsp</result>
+			<result name="list">/WEB-INF/jsps/${actionName}/list.jsp</result>
+			<result name="toList" type="redirectAction">${actionName}_list</result>
+			<result name="input">/WEB-INF/jsps/${actionName}/input.jsp</result>
+		</global-results>
+
+		<!-- <action name="login"> <result>/WEB-INF/jsps/login.jsp</result> </action> -->
+		<action name="page_*">
+			<result>/WEB-INF/jsps/{1}.jsp</result>
+		</action>
+
+		<!-- dep -->
+		<action name="dep_*" class="depAction" method="{1}">
+			<result name="list">/WEB-INF/jsps/dep/list.jsp</result>
+			<result name="input">/WEB-INF/jsps/dep/input.jsp</result>
+			<result name="doList" type="redirect">/dep_list</result>
+		</action>
+
+		<!-- emp -->
+		<action name="emp_*" class="empAction" method="{1}">
+			<result name="loginFile">/WEB-INF/jsps/login.jsp</result>
+			<result name="loginSuccess">/WEB-INF/jsps/main.jsp</result>
+			<result name="list">/WEB-INF/jsps/emp/list.jsp</result>
+			<result name="input">/WEB-INF/jsps/emp/input.jsp</result>
+			<result name="doList" type="redirect">emp_list</result>
+			<result name="logout">/WEB-INF/jsps/login.jsp</result>
+			<result name="toChangePwd">/WEB-INF/jsps/emp/changePwd.jsp</result>
+		</action>
+
+		<!-- role -->
+		<action name="role_*" class="roleAction" method="{1}">
+			<result name="list">/WEB-INF/jsps/role/list.jsp</result>
+			<result name="input">/WEB-INF/jsps/role/input.jsp</result>
+			<result name="doList" type="redirect">role_list</result>
+		</action>
+
+		<!-- res -->
+		<action name="res_*" class="resAction" method="{1}">
+			<result name="list">/WEB-INF/jsps/res/list.jsp</result>
+			<result name="input">/WEB-INF/jsps/res/input.jsp</result>
+			<result name="doList" type="redirect">res_list</result>
+		</action>
+
+		<!-- menu -->
+		<action name="menu_*" class="menuAction" method="{1}">
+			<result name="list">/WEB-INF/jsps/menu/list.jsp</result>
+			<result name="input">/WEB-INF/jsps/menu/input.jsp</result>
+			<result name="doList" type="redirect">/menu_list</result>
+		</action>
+		<!-- goodsType -->
+		<action name="goodsType_*" class="goodsTypeAction" method="{1}">
+			<result name="list">/WEB-INF/jsps/goodsType/list.jsp</result>
+			<result name="input">/WEB-INF/jsps/goodsType/input.jsp</result>
+			<result name="doList" type="redirect">/goodsType_list</result>
+			<result name="ajaxGetBySupplierUuid" type="json">
+				<!-- 对数据进行过滤 方式1：使用包含多，容易看出获取的数据是什么 -->
+				<param name="includeProperties">
+					goodsTypeList\[\d+\]\.uuid,
+					goodsTypeList\[\d+\]\.name,
+				</param>
+				<!-- 对数据进行过滤 方式1 -->
+				<!-- <param name="excludeProperties"> goodsTypeList\[\d+\]\.supplier, 
+					</param> -->
+			</result>
+		</action>
+
+		<!-- supplier -->
+		<action name="supplier_*" class="supplierAction" method="{1}">
+			<result name="list">/WEB-INF/jsps/supplier/list.jsp</result>
+			<result name="input">/WEB-INF/jsps/supplier/input.jsp</result>
+			<result name="doList" type="redirect">/supplier_list</result>
+		</action>
+
+		<!-- goods -->
+		<action name="goods_*" class="goodsAction" method="{1}">
+			<result name="list">/WEB-INF/jsps/goods/list.jsp</result>
+			<result name="input">/WEB-INF/jsps/goods/input.jsp</result>
+			<result name="doList" type="redirect">/goods_list</result>
+		</action>
+
+		<!-- order -->
+		<action name="order_*" class="orderAction" method="{1}">
+			<result name="buyList">/WEB-INF/jsps/order/buy/buyList.jsp</result>
+			<result name="buyInput">/WEB-INF/jsps/order/buy/buyInput.jsp</result>
+			<result name="doBuyList" type="redirect">/order_buyList</result>
+			<result name="buyDetailList">/WEB-INF/jsps/order/buy/buyDetailList.jsp
+			</result>
+
+			<result name="buyCheckList">/WEB-INF/jsps/order/buy/buyCheckList.jsp</result>
+			<result name="buyCheckDetail">/WEB-INF/jsps/order/buy/buyCheckDetail.jsp
+			</result>
+			<result name="doBuyCheckList" type="redirect">order_buyCheckList</result>
+
+
+			<!-- 仓库 -->
+			<result name="inStoreList">/WEB-INF/jsps/order/in/inStoreList.jsp</result>
+			<result name="inStoreDetail">/WEB-INF/jsps/order/in/inStoreDetail.jsp</result>
+
+			<result name="ajaxGetGoodsTypeBySupplierUuid" type="json">
+				<param name="includeProperties">
+					goodsTypeList\[\d+\]\.uuid,
+					goodsTypeList\[\d+\]\.name,
+					goodsList\[\d+\]\.uuid,
+					goodsList\[\d+\]\.name,
+					goods\.inPrice,
+				</param>
+			</result>
+			<result name="ajaxGetGoodsByGoodsType" type="json">
+				<param name="includeProperties">
+					goodsList\[\d+\]\.uuid,
+					goodsList\[\d+\]\.name,
+					goods\.inPrice,
+				</param>
+			</result>
+			<result name="ajaxGetGoodsByGoodsUuid" type="json">
+				<param name="includeProperties">
+					goods\.inPrice,
+				</param>
+			</result>
+			<result name="ajaxInGoods" type="json">
+				<param name="includeProperties">
+					orderDetail\.num,
+					orderDetail\.surplus
+				</param>
+			</result>
+		</action>
+
+
+		<action name="orderDetail_*"
+			class="com.bxp.erp.invoice.orderdetail.web.OrderDetailAction" method="{1}">
+			<result name="ajaxGetSurplus" type="json">
+				<param name="includeProperties">
+					orderDetail\.surplus
+				</param>
+			</result>
+		</action>
+
+		<!-- transport -->
+		<action name="transport_*" class="com.bxp.erp.invoice.order.web.OrderAction"
+			method="{1}">
+			<result name="taskList">/WEB-INF/jsps/transport/taskList.jsp</result>
+			<result name="taskDetail">/WEB-INF/jsps/transport/taskDetail.jsp</result>
+			<result name="doTaskList" type="redirect">transport_taskList</result>
+			<result name="tasks">/WEB-INF/jsps/transport/tasks.jsp</result>
+			<result name="task">/WEB-INF/jsps/transport/task.jsp</result>
+			<result name="doTasks" type="redirect">transport_tasks</result>
+		</action>
+
+		<!-- store -->
+		<action name="store_*" class="com.bxp.erp.invoice.store.web.StoreAction"
+			method="{1}">
+			<result name="list">/WEB-INF/jsps/store/list.jsp</result>
+			<result name="input">/WEB-INF/jsps/store/input.jsp</result>
+			<result name="doList" type="redirect">store_list</result>
+		</action>
+
+		<!-- bill -->
+		<action name="bill_*" class="com.bxp.erp.invoice.bill.web.BillAction"
+			method="{1}">
+			<result name="buyBillList">/WEB-INF/jsps/bill/buyBillList.jsp</result>
+		</action>
+	</package>
+</struts>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

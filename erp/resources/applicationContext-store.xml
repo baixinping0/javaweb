@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		">
+	<!-- Action -->
+	<!-- 别忘了action对应的类应该配置scope   非单例 -->
+	<bean id="storeAction" class="com.bxp.erp.invoice.store.web.StoreAction" scope="prototype">
+		<property name="storeEbi" ref="storeEbi"/>
+		<property name="empEbi" ref="empEbi"/>
+	</bean>
+	<!-- Ebi -->
+	<bean id="storeEbi" class="com.bxp.erp.invoice.store.business.ebo.StoreEbo">
+		<property name="storeDao" ref="storeDao"/>
+	</bean>
+	<!-- Dao -->
+	<bean id="storeDao" class="com.bxp.erp.invoice.store.dao.impl.StoreImpl">
+		<!-- 注入sessionFactory -->
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+</beans>	
+	

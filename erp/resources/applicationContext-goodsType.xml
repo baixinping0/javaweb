@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		">
+	<!-- Action -->
+	<!-- 别忘了action对应的类应该配置scope   非单例 -->
+	<bean id="goodsTypeAction" class="com.bxp.erp.invoice.goodstype.web.GoodsTypeAction" scope="prototype">
+		<property name="goodsTypeEbi" ref="goodsTypeEbi"></property>
+		<property name="supplierEbi" ref="supplierEbi"></property>
+	</bean>
+	<!-- Ebi -->
+	<bean id="goodsTypeEbi" class="com.bxp.erp.invoice.goodstype.business.ebo.GoodsTypeEbo">
+		<property name="goodsTypeDao" ref="goodsTypeDao"/>
+	</bean>
+	<!-- Dao -->
+	<bean id="goodsTypeDao" class="com.bxp.erp.invoice.goodstype.dao.impl.GoodsTypeImpl">
+		<!-- 注入sessionFactory -->
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+</beans>	
+	
